@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>📝Lista de Tareas📝</h1>
+</div>
+
+<div class="nombre">
+    <input type="text" id="nombrePersona" placeholder="Ingrese su nombre" class="nombre-input">
+    <button id="btnComenzar">Comenzar</button>
+</div>
+
+<div class="input-group">
+    <input type="text" id="tarea" placeholder="¿Qué tarea desea agregar" class="tarea-input">
+    <button id="btnAgregar">Agregar</button>
+</div>
+
+<div class="tareas">
+    <div class="pendientes">
+        <h2>Pendientes</h2>
+        <ul id="pendientes-lista"></ul>
+    </div>
+    <div class="realizadas">
+        <h2>Realizadas</h2>
+        <ul id="realizadas-lista"></ul>
+    </div>
+</div>
+<button id="btnVaciarRealizadas">Vaciar Realizadas</button>
+<button id="btnSalir">Salir</button>
+<p id="fecha-actual"></p>
+
+<script src="main.js"></script>
+</body>
+</html>

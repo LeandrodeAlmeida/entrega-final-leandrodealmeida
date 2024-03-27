@@ -1,0 +1,138 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2e2e2e;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin-bottom: 10px;
+    color: #00ced1;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group input[type="text"],
+.nombre-input,
+.tarea-input {
+    width: 50%;
+    padding: 15px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #666;
+    color: #fff;
+    display: flex;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group button,
+.nombre button {
+    width: 50%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00ced1;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid #00ced1;
+    display: flex;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.tareas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    background-color: #f3f3f3;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.tareas .pendientes,
+.tareas .realizadas {
+    flex: 1;
+    padding: 0 10px;
+    margin-right: 10px;
+}
+
+.tareas h2 {
+    margin-bottom: 10px;
+    color: #00ced1;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#fecha-actual {
+    color: #00ced1;
+    font-size: 16px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#btnSalir,
+#btnVaciarRealizadas {
+    display: block;
+    margin: 20px auto;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#btnSalir {
+    background-color: #ff6347;
+    color: #fff;
+}
+
+#btnVaciarRealizadas {
+    background-color: #00ced1;
+    color: #fff;
+}
+
+#btnSalir:hover {
+    background-color: #ff3b20;
+}
+
+#btnVaciarRealizadas:hover {
+    background-color: #0c7c7e;
+}
