@@ -37,7 +37,7 @@ function cargarTareas() {
     });
 }
 
-btnComenzar.addEventListener('click', function() {
+btnComenzar.addEventListener('click', function () {
     const nombre = inputNombre.value;
     if (nombre.trim() === '') {
         alert('Por favor, ingrese su nombre antes de comenzar.');
@@ -50,7 +50,7 @@ btnComenzar.addEventListener('click', function() {
     }
 });
 
-btnAgregarTarea.addEventListener('click', function() {
+btnAgregarTarea.addEventListener('click', function () {
     const tarea = inputTarea.value;
     if (tarea.trim() === '') {
         alert('Por favor, ingrese una tarea antes de agregar.');
@@ -65,7 +65,7 @@ btnAgregarTarea.addEventListener('click', function() {
     inputTarea.value = '';
 });
 
-listaPendientes.addEventListener('click', function(event) {
+listaPendientes.addEventListener('click', function (event) {
     if (event.target.tagName === 'LI') {
         listaRealizadas.appendChild(event.target);
         const realizadas = JSON.parse(localStorage.getItem('realizadas')) || [];
@@ -80,11 +80,11 @@ listaPendientes.addEventListener('click', function(event) {
     }
 });
 
-btnSalir.addEventListener('click', function() {
+btnSalir.addEventListener('click', function () {
     location.reload();
 });
 
-listaRealizadas.addEventListener('click', function(event) {
+listaRealizadas.addEventListener('click', function (event) {
     if (event.target.tagName === 'LI') {
         listaPendientes.appendChild(event.target);
         const nombreUsuario = localStorage.getItem('nombreUsuario');
@@ -104,10 +104,14 @@ listaRealizadas.addEventListener('click', function(event) {
     }
 });
 
-btnVaciarRealizadas.addEventListener('click', function() {
+
+btnVaciarRealizadas.addEventListener('click', function () {
     listaRealizadas.innerHTML = '';
     const nombreUsuario = localStorage.getItem('nombreUsuario');
     if (nombreUsuario) {
         localStorage.removeItem(nombreUsuario + '-realizadas');
     }
+    tareasRealizadas = [];
+    localStorage.setItem('realizadas', JSON.stringify(tareasRealizadas));
+    swal("Pronto para una nueva lista", "", "success");
 });
