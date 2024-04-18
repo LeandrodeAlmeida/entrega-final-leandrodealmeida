@@ -8,6 +8,7 @@ const listaRealizadas = document.getElementById('realizadas-lista');
 const fechaActualElemento = document.getElementById('fecha-actual');
 const btnSalir = document.getElementById('btnSalir');
 const btnVaciarRealizadas = document.getElementById('btnVaciarRealizadas');
+const btnCargarTareas = document.getElementById('btnCargarTareas');
 
 function mostrarFechaActual() {
     const fechaActual = new Date();
@@ -21,97 +22,116 @@ function mostrarFechaActual() {
 mostrarFechaActual();
 
 function cargarTareas() {
-    const pendientes = JSON.parse(localStorage.getItem('pendientes')) || [];
-    const realizadas = JSON.parse(localStorage.getItem('realizadas')) || [];
+    cargarLista('pendientes', listaPendientes);
+    cargarLista('realizadas', listaRealizadas);
+}
 
-    pendientes.forEach(tarea => {
+function cargarLista(tipo, lista) {
+    const tareas = JSON.parse(localStorage.getItem(tipo)) || [];
+    tareas.forEach(tarea => {
         const nuevaTarea = document.createElement('li');
         nuevaTarea.textContent = tarea;
-        listaPendientes.appendChild(nuevaTarea);
-    });
-
-    realizadas.forEach(tarea => {
-        const nuevaTarea = document.createElement('li');
-        nuevaTarea.textContent = tarea;
-        listaRealizadas.appendChild(nuevaTarea);
+        lista.appendChild(nuevaTarea);
     });
 }
 
 btnComenzar.addEventListener('click', function () {
-    const nombre = inputNombre.value;
-    if (nombre.trim() === '') {
-        alert('Por favor, ingrese su nombre antes de comenzar.');
-    } else {
-        h1Titulo.innerText = `Lista de Tareas de ${nombre}`;
-        inputNombre.style.display = 'none';
-        btnComenzar.style.display = 'none';
-        cargarTareas();
-        localStorage.setItem('nombreUsuario', nombre);
+    const nombre = inputNombre.value.trim();
+    if (nombre === '') {
+        swal('Error', 'Por favor, ingrese su nombre antes de comenzar.', 'error');
+        return;
     }
+    h1Titulo.innerText = `Lista de Tareas de ${nombre}`;
+    inputNombre.style.display = 'none';
+    btnComenzar.style.display = 'none';
+    cargarTareas();
+    localStorage.setItem('nombreUsuario', nombre);
 });
 
 btnAgregarTarea.addEventListener('click', function () {
-    const tarea = inputTarea.value;
-    if (tarea.trim() === '') {
-        alert('Por favor, ingrese una tarea antes de agregar.');
-    } else {
-        const nuevaTarea = document.createElement('li');
-        nuevaTarea.textContent = tarea;
-        listaPendientes.appendChild(nuevaTarea);
-        const pendientes = JSON.parse(localStorage.getItem('pendientes')) || [];
-        pendientes.push(tarea);
-        localStorage.setItem('pendientes', JSON.stringify(pendientes));
+    const tarea = inputTarea.value.trim();
+    if (tarea === '') {
+        swal('Error', 'Por favor, ingrese una tarea antes de agregar.', 'error');
+        return;
     }
+    const nuevaTarea = document.createElement('li');
+    nuevaTarea.textContent = tarea;
+    listaPendientes.appendChild(nuevaTarea);
+    actualizarLocalStorage('pendientes', tarea);
     inputTarea.value = '';
 });
 
-listaPendientes.addEventListener('click', function (event) {
-    if (event.target.tagName === 'LI') {
-        listaRealizadas.appendChild(event.target);
-        const realizadas = JSON.parse(localStorage.getItem('realizadas')) || [];
-        realizadas.push(event.target.textContent);
-        localStorage.setItem('realizadas', JSON.stringify(realizadas));
-        const pendientes = JSON.parse(localStorage.getItem('pendientes')) || [];
-        const index = pendientes.indexOf(event.target.textContent);
-        if (index !== -1) {
-            pendientes.splice(index, 1);
-            localStorage.setItem('pendientes', JSON.stringify(pendientes));
-        }
-    }
-});
+function actualizarLocalStorage(tipo, tarea) {
+    const tareas = JSON.parse(localStorage.getItem(tipo)) || [];
+    tareas.push(tarea);
+    localStorage.setItem(tipo, JSON.stringify(tareas));
+}
 
 btnSalir.addEventListener('click', function () {
     location.reload();
 });
 
-listaRealizadas.addEventListener('click', function (event) {
+listaPendientes.addEventListener('click', function (event) {
     if (event.target.tagName === 'LI') {
-        listaPendientes.appendChild(event.target);
-        const nombreUsuario = localStorage.getItem('nombreUsuario');
-        if (!nombreUsuario) {
-            alert('Por favor, ingrese su nombre antes de marcar tareas como realizadas.');
-            return;
-        }
-        const tareasRealizadas = JSON.parse(localStorage.getItem(nombreUsuario + '-realizadas')) || [];
-        tareasRealizadas.push(event.target.textContent);
-        localStorage.setItem(nombreUsuario + '-realizadas', JSON.stringify(tareasRealizadas));
-        const tareasPendientes = JSON.parse(localStorage.getItem(nombreUsuario)) || [];
-        const index = tareasPendientes.indexOf(event.target.textContent);
-        if (index !== -1) {
-            tareasPendientes.splice(index, 1);
-            localStorage.setItem(nombreUsuario, JSON.stringify(tareasPendientes));
-        }
+        moverTarea(event.target, listaPendientes, listaRealizadas, 'pendientes', 'realizadas');
     }
 });
 
+listaRealizadas.addEventListener('click', function (event) {
+    if (event.target.tagName === 'LI') {
+        moverTarea(event.target, listaRealizadas, listaPendientes, 'realizadas', 'pendientes');
+    }
+});
+
+function moverTarea(tarea, listaOrigen, listaDestino, tipoOrigen, tipoDestino) {
+    listaDestino.appendChild(tarea);
+    const textoTarea = tarea.textContent;
+    actualizarLocalStorage(tipoDestino, textoTarea);
+    eliminarTareaLocalStorage(tipoOrigen, textoTarea);
+}
+
+function eliminarTareaLocalStorage(tipo, tarea) {
+    const tareas = JSON.parse(localStorage.getItem(tipo)) || [];
+    const index = tareas.indexOf(tarea);
+    if (index !== -1) {
+        tareas.splice(index, 1);
+        localStorage.setItem(tipo, JSON.stringify(tareas));
+    }
+}
 
 btnVaciarRealizadas.addEventListener('click', function () {
     listaRealizadas.innerHTML = '';
-    const nombreUsuario = localStorage.getItem('nombreUsuario');
-    if (nombreUsuario) {
-        localStorage.removeItem(nombreUsuario + '-realizadas');
-    }
-    tareasRealizadas = [];
-    localStorage.setItem('realizadas', JSON.stringify(tareasRealizadas));
-    swal("Pronto para una nueva lista", "", "success");
+    localStorage.removeItem('realizadas');
+    swal('Listo', 'Realizadas han sido vaciadas.', 'success');
 });
+
+btnCargarTareas.addEventListener('click', function () {
+    fetch('tareas.json')
+        .then(response => response.json())
+        .then(data => {
+            listaPendientes.innerHTML = '';
+            listaRealizadas.innerHTML = '';
+            data.forEach(tarea => {
+                const nuevaTarea = document.createElement('li');
+                nuevaTarea.textContent = tarea.nombre;
+                if (tarea.estado === 'pendiente') {
+                    listaPendientes.appendChild(nuevaTarea);
+                } else if (tarea.estado === 'realizada') {
+                    listaRealizadas.appendChild(nuevaTarea);
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar las tareas:', error);
+            swal('Error', 'Ocurrió un error al cargar las tareas.', 'error');
+        });
+});
+
+class Tarea {
+    constructor(nombre, estado) {
+        this.nombre = nombre;
+        this.estado = estado;
+    }
+}
+
+cargarTareas();

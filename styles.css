@@ -108,7 +108,8 @@ ul li {
 }
 
 #btnSalir,
-#btnVaciarRealizadas {
+#btnVaciarRealizadas,
+#btnCargarTareas {
     display: block;
     margin: 20px auto;
     padding: 15px 30px;
@@ -135,4 +136,10 @@ ul li {
 
 #btnVaciarRealizadas:hover {
     background-color: #0c7c7e;
+}
+
+
+
+#btnCargarTareas:hover {
+    background-color: #00b3b6;
 }

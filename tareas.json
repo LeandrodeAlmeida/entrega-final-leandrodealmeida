@@ -1,0 +1,34 @@
+[
+    {
+        "nombre": "Crear lista de tarea",
+        "estado": "realizada"
+    },
+    {
+        "nombre": "Limpiar el auto",
+        "estado": "pendiente"
+    },
+    {
+        "nombre": "Limpiar la casa",
+        "estado": "pendiente"
+    },
+    {
+        "nombre": "Estudiar para el proyecto final",
+        "estado": "realizada"
+    },
+    {
+        "nombre": "Comprarle comida al mascota",
+        "estado": "pendiente"
+    },
+    {
+        "nombre": "Hacer las compras de la semana",
+        "estado": "pendiente"
+    },
+    {
+        "nombre": "Terminar tareas extras del trabajo",
+        "estado": "pendiente"
+    },
+    {
+        "nombre": "Preparar la mochila para el futbol del fin de semana",
+        "estado": "pendiente"
+    }
+]
